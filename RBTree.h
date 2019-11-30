@@ -5,6 +5,10 @@
 #ifndef RBTREE_RBTREE_H
 #define RBTREE_RBTREE_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 // a color of a Node.
 typedef enum Color
 {
@@ -94,5 +98,8 @@ int forEachRBTree(RBTree *tree, forEachFunc func, void *args); // implement it i
  */
 void freeRBTree(RBTree *tree); // implement it in RBTree.c
 
+#ifdef __cplusplus
+}
+#endif
 
 #endif //RBTREE_RBTREE_H

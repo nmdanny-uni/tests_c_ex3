@@ -7,15 +7,18 @@
 #ifndef TA_EX3_STRUCTS_H
 #define TA_EX3_STRUCTS_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 /**
  * Represents a vector. The double* should be dynamically allocated
  */
 typedef struct Vector
 {
-	int len;
-	double *vector;
+    int len;
+    double *vector;
 } Vector;
-
 
 /**
  * CompFunc for strings (assumes strings end with "\0")
@@ -70,5 +73,8 @@ int copyIfNormIsLarger(const void *pVector, void *pMaxVector); // implement it i
  */
 Vector *findMaxNormVectorInTree(RBTree *tree); // implement it in Structs.c You must use copyIfNormIsLarger in the implementation!
 
+#ifdef __cplusplus
+}
+#endif
 
 #endif //TA_EX3_STRUCTS_H
