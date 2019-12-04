@@ -14,9 +14,11 @@
 #include <iomanip>
 #include <utility>
 #include "RBTree.h"
+#include <cstdlib>
 
 using DataFormatter = std::function<std::string(const void*)>;
 
+static int callCounter = 0;
 /**
  * Emits the 'dot' representation of a RB node starting from given node
  * @param node Root of tree to be drawn
@@ -25,10 +27,10 @@ using DataFormatter = std::function<std::string(const void*)>;
  * @param dataFormatter Function that converts a void pointer to a string
  * @param includeAddresses Whether we should emit addresses
  */
-static void treeToDot(const Node &node, const std::string &label, std::ostream &dotStream,
-                      DataFormatter dataFormatter, bool includeAddresses=false)
+static void treeToDot(const Node &rootNode, const std::string &label, std::ostream &dotStream,
+                      DataFormatter dataFormatter, bool includeAddresses=false, bool drawParents=false)
 {
-    static int callCounter = 0;
+    callCounter++;
     std::stringstream nodeDefinitions;
     std::stringstream edgeDefinitions;
     dotStream << "subgraph \"cluster_" << label << ++callCounter << "\"{" << std::endl;
@@ -45,7 +47,7 @@ static void treeToDot(const Node &node, const std::string &label, std::ostream &
             color = "red";
         }
         if (includeAddresses) {
-            ss << "[shape=record " << "color=" << color << " label=\"" << node << " | " << dataFormatter(node->data) << "\"];";
+            ss << "[shape=record " << "color=" << color << " label=\"{" << node << " | " << dataFormatter(node->data) << "}\"];";
         } else {
             ss << "[shape=record " << "color=" << color  << " label=\"" << dataFormatter(node->data) << "\"];";
         }
@@ -57,6 +59,9 @@ static void treeToDot(const Node &node, const std::string &label, std::ostream &
         }
 
         nodeDefinitions << nodeToLabel(node) << nodeToDef(node) << std::endl;
+        if (drawParents && node->parent != nullptr) {
+            edgeDefinitions << nodeToLabel(node) << " -> " << nodeToLabel(node->parent) << "[style=dotted];" << std::endl;
+        }
         if(node->left != nullptr) {
             edgeDefinitions << nodeToLabel(node) << " -> " << nodeToLabel(node->left) << ";" << std::endl;
         } else {
@@ -72,7 +77,7 @@ static void treeToDot(const Node &node, const std::string &label, std::ostream &
         nodeToDot(node->left);
         nodeToDot(node->right);
     };
-    nodeToDot(&node);
+    nodeToDot(&rootNode);
     dotStream << nodeDefinitions.str() << std::endl;
     dotStream << edgeDefinitions.str() << std::endl;
     dotStream << "}" << std::endl;
@@ -123,7 +128,7 @@ class DotTracer {
 private:
     DataFormatter m_formatter;
     std::stringstream m_stringstream;
-
+    bool drawParents = true;
 
 public:
     DotTracer(DataFormatter formatter = intFormatter) : m_formatter(std::move(formatter)) {
@@ -132,8 +137,7 @@ public:
 
     void finish(const std::string &message="A tree") {
         m_stringstream << "label = \"" << message << "\";}" << std::endl;
-        std::cout << message;
-        std::cout << ", link: https://dreampuf.github.io/GraphvizOnline/#" << url_encode(m_stringstream.str()) << std::endl;
+        printf("%s, link: https://dreampuf.github.io/GraphvizOnline/#%s\n", message.c_str(), url_encode(m_stringstream.str()).c_str());
         m_stringstream.str("");
         m_stringstream.clear();
         m_stringstream << "digraph {" << std::endl;
@@ -145,11 +149,12 @@ public:
            formatter = &m_formatter;
         }
         treeToDot(node, stepName, m_stringstream, *formatter);
+        //printf(" step \"%s\" https://dreampuf.github.io/GraphvizOnline/#%s\n", stepName.c_str(), url_encode(m_stringstream.str()+"}").c_str());
     }
     void addStep(const RBTree &tree, const std::string &stepName, DataFormatter *formatter = nullptr)
     {
         if (tree.root == nullptr) {
-            std::cerr << "While calling addStep, tree must have a root" << std::endl;
+            fprintf(stderr, "While calling addStep, tree must have a root\n");
             exit(-1);
         }
         addStep(*tree.root, stepName, formatter);
