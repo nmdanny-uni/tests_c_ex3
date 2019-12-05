@@ -26,6 +26,9 @@ add_subdirectory(tree_visualizer)
 # your library will be linked with math library(if you need it) and my tree visualizer
 target_link_libraries(ex3_lib tree_visualizer m)
 
+# comment the following line if you don't want graph visualization
+add_compile_definitions(ex3_lib ENABLE_TREE_VISUALIZATION)
+
 # unit tests that can be run via CLion
 add_subdirectory(unit_tests)
 
