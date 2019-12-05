@@ -53,3 +53,6 @@ void setPrintLinkEveryStep(int printEveryStep) {
     TRACER.printLinkEveryStep = printEveryStep;
 }
 
+void setVisualizationEnabled(int enabled) {
+    TRACER.enabled = enabled;
+}

@@ -160,8 +160,9 @@ public:
 
     bool drawParents = true;
     bool includeAddresses = false;
-    bool printLinkEveryStep = true;
+    bool printLinkEveryStep = false;
     bool emitFileOnFinish = true;
+    bool enabled = true;
     DataFormatter  formatter;
 
     explicit DotTracer(DataFormatter chosenFormatter = intFormatter) : formatter(std::move(chosenFormatter)) {
@@ -170,6 +171,9 @@ public:
 
     std::string finish(const std::string &message="A tree")
     {
+        if (!enabled) {
+            return "";
+        }
         m_stringstream << "label = \"" << message << "\";}" << std::endl;
         // for some reason, Catch captures "cout" prints but not printfs - which is why I use them here
         // and in addStep
@@ -205,6 +209,9 @@ public:
     }
 
     void addStep(const Node &node, const std::string &stepName) {
+        if (!enabled) {
+            return;
+        }
         treeToDot(node, stepName, m_callCounter, m_stringstream, m_nodeTags, formatter, includeAddresses, drawParents);
         if (printLinkEveryStep)
         {
@@ -227,11 +234,12 @@ public:
         addStep(*tree.root, stepName);
     }
 
-    bool tagNode(const Node *node, const std::string& tag, int steps) {
+    void tagNode(const Node *node, const std::string& tag, int steps) {
+        if (!enabled) {
+            return;
+        }
         m_nodeTags.erase(node);
         m_nodeTags.emplace(node, std::make_pair(tag, steps));
-        return true;
     }
 };
-
 #endif

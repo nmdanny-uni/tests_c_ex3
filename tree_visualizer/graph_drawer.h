@@ -54,6 +54,10 @@ void setDrawParents(int drawParents);
 /// \param includeAddresses 0 for false, anything else for true
 void setPrintLinkEveryStep(int printEveryStep);
 
+/// Allows enable/disabling the entire graph visualization helper - when disabled,
+/// 'addStep', 'tagNode' and 'finish' will have no effect.
+/// \param 0 for false, anything else for true
+void setVisualizationEnabled(int enabled);
 
 #ifdef __cplusplus
 };

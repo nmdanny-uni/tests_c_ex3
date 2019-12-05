@@ -1,5 +1,5 @@
 #define CATCH_CONFIG_MAIN
-#include <catch2/catch.hpp>
+#include "catch.hpp"
 #include "RBTree.h"
 #include <iostream>
 #include <algorithm>
@@ -37,7 +37,7 @@ SCENARIO("Can perform basic operations on a RB tree", "[basic]") {
         RBTree *tree = newRBTree(intCmp, intFree);
         REQUIRE(tree != NULL);
 
-        WHEN("adding 0,1 and 2 to it") {
+        THEN("Can add 0,1,2 to it") {
             int elements[] = { 0, 1, 2, 3};
             DotTracer tracer(intFormatter);
             REQUIRE(addToRBTree(tree, &elements[0]));
@@ -52,7 +52,6 @@ SCENARIO("Can perform basic operations on a RB tree", "[basic]") {
             THEN("its size should be 3") {
                 REQUIRE(3 == tree->size);
             }
-
 
             THEN("it contains 0,1,2, but not 3") {
                 REQUIRE(containsRBTree(tree, &elements[0]));
@@ -75,13 +74,10 @@ SCENARIO("Can perform basic operations on a RB tree", "[basic]") {
                 }
             }
 
-            AND_WHEN("freeing the tree") {
-                THEN("it should free with no issues") {
-                    freeRBTree(tree);
-                }
-            }
         }
 
+        // run tests via valgrind that there are no leaks
+        freeRBTree(tree);
     }
 
 
@@ -106,6 +102,7 @@ void createTestFile(std::vector<int> insertion, std::string testName) {
     file << dot;
     std::string command = "dot -Tpng " + testName+".dot" + " -o " + testName + ".png";
     std::system(command.c_str());
+    freeRBTree(tree);
 }
 
 
@@ -144,5 +141,6 @@ SCENARIO("Creates RB trees of proper structure", "[structure]") {
             REQUIRE(10 == count);
         }
 
+        freeRBTree(tree);
     }
 }
