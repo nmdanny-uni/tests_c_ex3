@@ -228,6 +228,7 @@ public:
     }
 
     bool tagNode(const Node *node, const std::string& tag, int steps) {
+        m_nodeTags.erase(node);
         m_nodeTags.emplace(node, std::make_pair(tag, steps));
         return true;
     }
