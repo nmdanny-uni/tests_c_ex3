@@ -18,21 +18,38 @@ void finish(const char* message) {
     TRACER.finish(std::string(message));
 }
 
+void tagNode(const Node *node, const char* tag, int steps) {
+    TRACER.tagNode(node, std::string(tag), steps);
+}
+
 void setFormatter(DataFormatterC newFormatter) {
     DataFormatter properFmter = [&](const void* data) {
         return std::string(newFormatter(data));
     };
-    TRACER.setFormatter(properFmter);
+    TRACER.formatter = properFmter;
 }
 
 void setFormatter(DataFormatter newFormatter) {
-    TRACER.setFormatter(std::move(newFormatter));
+    TRACER.formatter = std::move(newFormatter);
 }
 
 void setIntFormatter() {
-    TRACER.setFormatter(intFormatter);
+    TRACER.formatter = intFormatter;
 }
 
 void setStringFormatter() {
-    TRACER.setFormatter(cstringFormatter);
+    TRACER.formatter = cstringFormatter;
 }
+
+void setIncludeAddresses(int includeAddresses) {
+    TRACER.includeAddresses = includeAddresses;
+}
+
+void setDrawParents(int drawParents) {
+    TRACER.drawParents = drawParents;
+}
+
+void setPrintLinkEveryStep(int printEveryStep) {
+    TRACER.printLinkEveryStep = printEveryStep;
+}
+

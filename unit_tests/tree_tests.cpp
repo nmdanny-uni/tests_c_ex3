@@ -2,6 +2,9 @@
 #include <catch2/catch.hpp>
 #include "RBTree.h"
 #include <iostream>
+#include <algorithm>
+#include <random>
+#include <cstdlib>
 #include "tree_visualizer/util.hpp"
 
 int intCmp(const void* aa, const void* bb)
@@ -79,9 +82,67 @@ SCENARIO("Can perform basic operations on a RB tree", "[basic]") {
             }
         }
 
-
-
     }
 
 
+}
+
+void createTestFile(std::vector<int> insertion, std::string testName) {
+    DotTracer tracer(intFormatter);
+    tracer.includeAddresses = false;
+    tracer.drawParents = true;
+    tracer.printLinkEveryStep = false;
+    tracer.emitFileOnFinish = false;
+    RBTree *tree = newRBTree(intCmp, intFree);
+    REQUIRE(tree != NULL);
+    for (auto it = insertion.begin(); it != insertion.end(); it++) {
+        int value = *it;
+        void *data = &*it;
+        REQUIRE(addToRBTree(tree, data));
+        tracer.addStep(*tree, "Added " + std::to_string(value));
+    }
+    std::fstream file(testName + ".dot", std::ios::out);
+    std::string dot = tracer.finish("");
+    file << dot;
+    std::string command = "dot -Tpng " + testName+".dot" + " -o " + testName + ".png";
+    std::system(command.c_str());
+}
+
+
+SCENARIO("Creates RB trees of proper structure", "[structure]") {
+    GIVEN("10 different elements inserte in random order") {
+        //std::vector<int> elements {-5,-4,-3,-2,-1,0,1,2,3,4};
+        std::vector<int> elements { -3, 2, -4, 1, 3, -5, -1, 4, 0, -2};
+        auto rng = std::default_random_engine {};
+        // with default seed:
+        // -3, 2, -4, 1, 3, -5, -1, 4, 0, -2
+        //std::shuffle(elements.begin(), elements.end(), rng);
+
+        createTestFile(elements, "test1");
+
+        RBTree *tree = newRBTree(intCmp, intFree);
+        REQUIRE(tree != NULL);
+
+        DotTracer tracer(intFormatter);
+
+        for (auto it = elements.begin(); it != elements.end(); it++) {
+            int val = *it;
+            void *data = &*it;
+            REQUIRE(addToRBTree(tree, data));
+            tracer.addStep(*tree, "Added " + std::to_string(val));
+        }
+        tracer.finish("Added 10 elements");
+
+        THEN("It should have 10 elements") {
+            REQUIRE(10 == tree->size);
+            int count = 0;
+            forEachRBTree(tree,[](const void* object, void* args) {
+                int *count = (int*)args;
+                ++*count;
+                return 1;
+                }, &count);
+            REQUIRE(10 == count);
+        }
+
+    }
 }
