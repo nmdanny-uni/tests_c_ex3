@@ -9,15 +9,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
-
-#ifdef ENABLE_TREE_VISUALIZATION
 #include "tree_visualizer/graph_drawer.h"
-#else
-#define finish(...)
-  #define addStep(...)
-  #define tagNode(...)
-  #define finish(...)
-#endif
 
 #define LESS (-1)
 #define EQUAL (0)
@@ -135,11 +127,20 @@ void assertion(int passed, int assertion_num, char *msg)
 
 }
 
+const char* productFormattter(const void* data)
+{
+    const ProductExample* prod = data;
+    char* buf = calloc(40 + strlen(prod->name),sizeof(char));
+    sprintf(buf, "Name: %s Price: %.2f", prod->name, prod->price);
+    return buf;
+}
+
 int main()
 {
 	ProductExample **products = getProducts();
 
 	RBTree *tree = newRBTree(productComparatorByName, productFree);
+	setFormatter(productFormattter);
 	addToRBTree(tree, products[2]);
 	addStep(tree->root, "added 1 product");
 	addToRBTree(tree, products[3]);

@@ -87,48 +87,41 @@ This is extremely useful for debugging complex operations, for example:
 
 ### Usage
 
-- In your RBTree.c, add the following lines at the beginning:
-  ```c
-  #ifdef ENABLE_TREE_VISUALIZATION
-  #include "tree_visualizer/graph_drawer.h"
-  #else
-  #define finish(...)
-  #define addStep(...)
-  #define tagNode(...)
-  #define finish(...)
-  #endif
-  ```
+In your RBTree.c, add the following line at the beginning
+```c
+#include "tree_visualizer/graph_drawer.h"
+```
 
-(This allows disabling the visualization when the "ENABLE_TREE_VISUALIZATION" isn't defined at the main `CMakeLists.txt`)
 
 You can then use the functions declared at `tree_visualizer/graph_drawer.h` for visualizing graphs. 
 I highly recommend you to go over that file(NOTE: it will likely undergo some changes), but here's an example taken from
 `ProductExample.c` main, modified to trace the tree:
 
 ```c
-	RBTree *tree = newRBTree(productComparatorByName, productFree);
-	addToRBTree(tree, products[2]);
-	addStep(tree->root, "added 1 product");
-	addToRBTree(tree, products[3]);
-    addStep(tree->root, "added 2 products");
-	addToRBTree(tree, products[4]);
-    addStep(tree->root, "added 3 products");
-	addToRBTree(tree, products[0]);
-    addStep(tree->root, "added 4 products");
-    finish("ProductExample-added 4 products");
+RBTree *tree = newRBTree(productComparatorByName, productFree);
+setFormatter(productFormattter);
+addToRBTree(tree, products[2]);
+addStep(tree->root, "added 1 product");
+addToRBTree(tree, products[3]);
+addStep(tree->root, "added 2 products");
+addToRBTree(tree, products[4]);
+addStep(tree->root, "added 3 products");
+addToRBTree(tree, products[0]);
+addStep(tree->root, "added 4 products");
+finish("ProductExample-added 4 products");
 ```
 
 The file/link is only emitted upon the finish call, and it will create the image `cmake-build-debug/ProducExample-added 4 products_0.png`
 as well as a link in STDOUT. As explained before, for larger trees, you won't be able to use the link and must use the generated image.
 
-You can of course use recursion and use many `addStep` calls within them, terminating with a `finish` call (e.g, after fixing
+* You can of course use recursion and use many `addStep` calls within them, terminating with a `finish` call (e.g, after fixing
 the RB tree)
 
-You can have multiple addStep...finish chains, note that `finish` will overwrite any previous image with the same filename,
+* You can have multiple addStep...finish sequences, note that `finish` will overwrite any previous image with the same filename,
 this is noticeable especially when running tests - but if you use a debugger, you can pause the program at an interesting
 test case and then inspect the image that was generated for it.
 
-
+* You can disable visualizations by commenting the add_definitions line at `tree_visualizer/CMakeLists.txt`
 
    
 # Common errors and isuses
@@ -210,4 +203,5 @@ test case and then inspect the image that was generated for it.
       {Unknown expression after the reported line}
     ```
   
-  This usually means that your program has crashed while running the test, due to 
+  This usually means that your program has crashed while running the test. Running the test with the CLion's debugger
+  will usually provide you with information about the crash.
