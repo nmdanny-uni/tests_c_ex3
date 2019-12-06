@@ -10,6 +10,15 @@
 #include <string.h>
 #include <stdio.h>
 
+#ifdef ENABLE_TREE_VISUALIZATION
+#include "tree_visualizer/graph_drawer.h"
+#else
+#define finish(...)
+  #define addStep(...)
+  #define tagNode(...)
+  #define finish(...)
+#endif
+
 #define LESS (-1)
 #define EQUAL (0)
 #define GREATER (1)
@@ -131,11 +140,15 @@ int main()
 	ProductExample **products = getProducts();
 
 	RBTree *tree = newRBTree(productComparatorByName, productFree);
-
 	addToRBTree(tree, products[2]);
+	addStep(tree->root, "added 1 product");
 	addToRBTree(tree, products[3]);
+    addStep(tree->root, "added 2 products");
 	addToRBTree(tree, products[4]);
+    addStep(tree->root, "added 3 products");
 	addToRBTree(tree, products[0]);
+    addStep(tree->root, "added 4 products");
+    finish("ProductExample-added 4 products");
 
 	int i = 0;
 	for (i = 0; i < 6; i++)
