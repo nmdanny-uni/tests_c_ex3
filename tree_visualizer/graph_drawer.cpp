@@ -23,14 +23,10 @@ void tagNode(const Node *node, const char* tag, int steps) {
 }
 
 void setFormatter(DataFormatterC newFormatter) {
-    DataFormatter properFmter = [&](const void* data) {
-        return std::string(newFormatter(data));
+    TRACER.formatter = [=](const void* data) {
+        const char* c_str = newFormatter(data);
+        return std::string(c_str);
     };
-    TRACER.formatter = properFmter;
-}
-
-void setFormatter(DataFormatter newFormatter) {
-    TRACER.formatter = std::move(newFormatter);
 }
 
 void setIntFormatter() {

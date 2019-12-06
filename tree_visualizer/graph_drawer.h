@@ -13,7 +13,7 @@ extern "C" {
 
 
 /// The type of a function that takes a node's data(void pointer) and returns a C string for it
-typedef char*(*DataFormatterC)(const void*);
+typedef const char*(*DataFormatterC)(const void*);
 
 /// Creates a snapshot of the tree's current state in the graph into the global dot emitter
 /// \param node Node representing root of the tree - usually an RBTree's root, but can also be a deeper node if you wish
