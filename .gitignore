@@ -1,3 +1,6 @@
+# don't commit these into the tests branch
+Structs.c
+RBTree.c
 
 # Created by https://www.gitignore.io/api/c,cmake,clion
 # Edit at https://www.gitignore.io/?templates=c,cmake,clion
