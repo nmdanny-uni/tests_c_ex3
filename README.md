@@ -56,12 +56,6 @@ is a *new* directory.
    differ - when starting a test this way, it creates a new `Run Configuration` - you can edit it and switch the target
    between `test_school_impl` or `test_my_impl`
    
-   **ANOTHER IMPORTANT NOTE** The school's implementation seems to contain some memory issues and bugs that will cause issues when running
-   all tests, namely, `Scenario: String tree operations` and `Scenario: Vector operations - Given some vectors in a RB tree`
-   ![buggy solution](tutorial/school_solution_is_somewhat_buggy.png)
-   
-   * TODO: check in forum regarding newlines in concatenation, and crashes with finding max vector norm
-     
 # Tree visualization
 
 Tree visualization is built in the testers (via the `DotTracer` class, a C++ class), but is also exposed to C via functions

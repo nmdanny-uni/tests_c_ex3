@@ -59,6 +59,7 @@ SCENARIO("String tree operations", "[tree]")
         std::vector<std::string> sortedStrings(strings);
         std::sort(sortedStrings.begin(), sortedStrings.end());
 
+
         WHEN("forEachRBTree should iterate it in ascending order(tree-inorder)")
         {
             std::vector<std::string> gotten;
@@ -68,19 +69,17 @@ SCENARIO("String tree operations", "[tree]")
                 outVec->push_back(string);
                 return 1;
                 }, (void*)&gotten);
-            THEN("It should produce a sorted list of strings") {
+            THEN("It should produce a sorted list of strings, joined with newlines") {
                 REQUIRE_THAT(sortedStrings, Catch::Matchers::Equals(gotten));
             }
         }
         WHEN("using 'concatenate' as a forEach function") {
-            std::string expected;
-            for (const auto &word: sortedStrings) {
-                expected += word;
-            }
-            char *buf = (char*)calloc(expected.size() + 1,sizeof(char));
+            std::stringstream expected;
+            std::copy(sortedStrings.begin(), sortedStrings.end(), std::ostream_iterator<std::string>(expected, "\n"));
+            char *buf = (char*)calloc(expected.str().size() + 1,sizeof(char));
             forEachRBTree(tree, concatenate, buf);
             std::string gotten = std::string(buf);
-            REQUIRE(expected == gotten);
+            REQUIRE(expected.str() == gotten);
             free(buf);
         }
         freeRBTree(tree);
