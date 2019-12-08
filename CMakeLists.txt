@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.3)
 project(ex3_lib C CXX)
 
 set(CMAKE_C_STANDARD 99)
-set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD 17)
 
 # this is your program(a library)
 add_library(ex3_lib RBTree.h RBTree.c Structs.h Structs.c)

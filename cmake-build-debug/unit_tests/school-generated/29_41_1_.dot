@@ -1,0 +1,47 @@
+digraph {
+subgraph "cluster_Added 29_count_1"{
+label ="Added 29";
+"cluster_Added 29_count_1_data_29"[shape=record color=black label="{29}"];
+"cluster_Added 29_count_1_data_29_leftNull" [label=Null shape=point color=black];
+"cluster_Added 29_count_1_data_29_rightNull" [label=Null shape=point color=black];
+
+"cluster_Added 29_count_1_data_29" -> "cluster_Added 29_count_1_data_29_leftNull"[label=L];
+"cluster_Added 29_count_1_data_29" -> "cluster_Added 29_count_1_data_29_rightNull"[label=R];
+
+}
+subgraph "cluster_Added 41_count_2"{
+label ="Added 41";
+"cluster_Added 41_count_2_data_29"[shape=record color=black label="{29}"];
+"cluster_Added 41_count_2_data_29_leftNull" [label=Null shape=point color=black];
+"cluster_Added 41_count_2_data_41"[shape=record color=red label="{41}"];
+"cluster_Added 41_count_2_data_41_leftNull" [label=Null shape=point color=black];
+"cluster_Added 41_count_2_data_41_rightNull" [label=Null shape=point color=black];
+
+"cluster_Added 41_count_2_data_29" -> "cluster_Added 41_count_2_data_29_leftNull"[label=L];
+"cluster_Added 41_count_2_data_29" -> "cluster_Added 41_count_2_data_41"[label=R];
+"cluster_Added 41_count_2_data_41" -> "cluster_Added 41_count_2_data_29"[style=dotted];
+"cluster_Added 41_count_2_data_41" -> "cluster_Added 41_count_2_data_41_leftNull"[label=L];
+"cluster_Added 41_count_2_data_41" -> "cluster_Added 41_count_2_data_41_rightNull"[label=R];
+
+}
+subgraph "cluster_Added 1_count_3"{
+label ="Added 1";
+"cluster_Added 1_count_3_data_29"[shape=record color=black label="{29}"];
+"cluster_Added 1_count_3_data_1"[shape=record color=red label="{1}"];
+"cluster_Added 1_count_3_data_1_leftNull" [label=Null shape=point color=black];
+"cluster_Added 1_count_3_data_1_rightNull" [label=Null shape=point color=black];
+"cluster_Added 1_count_3_data_41"[shape=record color=red label="{41}"];
+"cluster_Added 1_count_3_data_41_leftNull" [label=Null shape=point color=black];
+"cluster_Added 1_count_3_data_41_rightNull" [label=Null shape=point color=black];
+
+"cluster_Added 1_count_3_data_29" -> "cluster_Added 1_count_3_data_1"[label=L];
+"cluster_Added 1_count_3_data_29" -> "cluster_Added 1_count_3_data_41"[label=R];
+"cluster_Added 1_count_3_data_1" -> "cluster_Added 1_count_3_data_29"[style=dotted];
+"cluster_Added 1_count_3_data_1" -> "cluster_Added 1_count_3_data_1_leftNull"[label=L];
+"cluster_Added 1_count_3_data_1" -> "cluster_Added 1_count_3_data_1_rightNull"[label=R];
+"cluster_Added 1_count_3_data_41" -> "cluster_Added 1_count_3_data_29"[style=dotted];
+"cluster_Added 1_count_3_data_41" -> "cluster_Added 1_count_3_data_41_leftNull"[label=L];
+"cluster_Added 1_count_3_data_41" -> "cluster_Added 1_count_3_data_41_rightNull"[label=R];
+
+}
+label = "";}

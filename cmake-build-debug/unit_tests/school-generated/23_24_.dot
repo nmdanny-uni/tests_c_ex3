@@ -1,0 +1,27 @@
+digraph {
+subgraph "cluster_Added 23_count_1"{
+label ="Added 23";
+"cluster_Added 23_count_1_data_23"[shape=record color=black label="{23}"];
+"cluster_Added 23_count_1_data_23_leftNull" [label=Null shape=point color=black];
+"cluster_Added 23_count_1_data_23_rightNull" [label=Null shape=point color=black];
+
+"cluster_Added 23_count_1_data_23" -> "cluster_Added 23_count_1_data_23_leftNull"[label=L];
+"cluster_Added 23_count_1_data_23" -> "cluster_Added 23_count_1_data_23_rightNull"[label=R];
+
+}
+subgraph "cluster_Added 24_count_2"{
+label ="Added 24";
+"cluster_Added 24_count_2_data_23"[shape=record color=black label="{23}"];
+"cluster_Added 24_count_2_data_23_leftNull" [label=Null shape=point color=black];
+"cluster_Added 24_count_2_data_24"[shape=record color=red label="{24}"];
+"cluster_Added 24_count_2_data_24_leftNull" [label=Null shape=point color=black];
+"cluster_Added 24_count_2_data_24_rightNull" [label=Null shape=point color=black];
+
+"cluster_Added 24_count_2_data_23" -> "cluster_Added 24_count_2_data_23_leftNull"[label=L];
+"cluster_Added 24_count_2_data_23" -> "cluster_Added 24_count_2_data_24"[label=R];
+"cluster_Added 24_count_2_data_24" -> "cluster_Added 24_count_2_data_23"[style=dotted];
+"cluster_Added 24_count_2_data_24" -> "cluster_Added 24_count_2_data_24_leftNull"[label=L];
+"cluster_Added 24_count_2_data_24" -> "cluster_Added 24_count_2_data_24_rightNull"[label=R];
+
+}
+label = "";}
