@@ -141,8 +141,6 @@ TEST_CASE("Generate test files(only to be run with school solution", "[gen]") {
 #ifdef USING_SCHOOL_SOLUTION
     fs::create_directory(GENERATED_TESTS_PATH);
     generateTestFiles(15);
-#else
-    std::cout << "Can't generate test files while not using school solution" << std::endl;
 #endif
 }
 
